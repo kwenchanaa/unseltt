@@ -1,0 +1,131 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;}
+.scene{
+  min-height:640px;
+  background:linear-gradient(160deg,#ffe0e6 0%,#ffd6e7 50%,#ffb3c6 100%);
+  display:flex;flex-direction:column;align-items:center;
+  justify-content:center;padding:2.5rem 1rem;
+  font-family:'Lato',sans-serif;position:relative;overflow:hidden;
+}
+.hbg{position:absolute;inset:0;pointer-events:none;overflow:hidden;}
+.hf{position:absolute;animation:floatUp linear infinite;opacity:.4;}
+@keyframes floatUp{0%{transform:translateY(650px);opacity:.4}100%{transform:translateY(-60px);opacity:0}}
+h1{font-family:'Playfair Display',serif;font-size:2rem;color:#7a1030;text-align:center;margin-bottom:.3rem;position:relative;z-index:1;}
+.sub{font-size:.9rem;color:#b04060;text-align:center;font-style:italic;margin-bottom:2rem;position:relative;z-index:1;}
+.env-wrap{position:relative;width:320px;height:210px;cursor:pointer;z-index:2;}
+.env-svg{position:absolute;top:0;left:0;width:320px;height:210px;z-index:4;pointer-events:none;}
+.letter{
+  position:absolute;left:24px;width:272px;
+  background:#fffbf0;border-radius:3px;
+  padding:1.3rem 1.1rem 1rem;z-index:3;
+  bottom:8px;transition:bottom .7s cubic-bezier(.34,1.3,.64,1);
+  pointer-events:none;
+}
+.letter.out{bottom:190px;pointer-events:auto;}
+.letter-to{font-family:'Playfair Display',serif;font-size:1rem;color:#8b1a3a;margin-bottom:.5rem;text-align:center;}
+.letter-body{font-size:.81rem;color:#5a3040;line-height:1.75;text-align:center;font-style:italic;}
+.letter-sign{margin-top:.7rem;text-align:right;font-family:'Playfair Display',serif;font-size:.84rem;color:#c0556e;}
+.env-hint{position:absolute;bottom:28px;left:0;right:0;text-align:center;font-family:'Playfair Display',serif;font-size:.88rem;color:#7a5010;z-index:5;transition:opacity .3s;}
+.env-wrap.open .env-hint{opacity:0;}
+.env-seal{position:absolute;top:88px;left:50%;transform:translateX(-50%);width:36px;height:36px;background:#c0556e;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;z-index:6;transition:opacity .25s .1s;}
+.env-wrap.open .env-seal{opacity:0;}
+.btns{display:flex;gap:.8rem;flex-wrap:wrap;justify-content:center;margin-top:1.8rem;position:relative;z-index:2;}
+.btn{background:#c0556e;color:#fff;border:none;border-radius:50px;padding:.55rem 1.4rem;font-size:.85rem;font-family:'Lato',sans-serif;cursor:pointer;letter-spacing:.4px;transition:background .2s,transform .15s;}
+.btn:hover{background:#8b1a3a;transform:scale(1.04);}
+.btn.sec{background:transparent;color:#8b1a3a;border:1.5px solid #c0556e;}
+.btn.sec:hover{background:#ffe0e6;}
+.cust{background:rgba(255,255,255,.78);border-radius:14px;padding:1.2rem 1.4rem;width:320px;margin-top:1.2rem;display:none;flex-direction:column;gap:.75rem;position:relative;z-index:2;}
+.cust.show{display:flex;}
+.cust label{font-size:.8rem;color:#8b1a3a;display:block;margin-bottom:2px;}
+.cust input,.cust textarea{width:100%;border:1px solid #e8a0b0;border-radius:8px;padding:.4rem .7rem;font-size:.82rem;font-family:'Lato',sans-serif;background:#fffbf0;color:#5a3040;outline:none;resize:vertical;}
+.cust textarea{min-height:64px;}
+@keyframes burst{0%{transform:translateY(0) scale(1);opacity:1}100%{transform:translateY(-200px) scale(.25) rotate(30deg);opacity:0}}
+</style>
+
+<div class="scene" id="scene">
+  <div class="hbg" id="hbg"></div>
+  <h1>🎂 BIRTHDAY</h1>
+  <p class="sub">Зүрхнээсээ илгээх захидал</p>
+
+  <div class="env-wrap" id="env" onclick="toggleEnv()">
+    <div class="letter" id="letter">
+      <div class="letter-to" id="lTo">Хайрт минь,</div>
+      <div class="letter-body" id="lBody">Чи миний хувьд дэлхийн хамгийн үнэтэй хүн. Чамайг харах бүрт зүрх минь дүүрэн баярладаг. Би чамайг хайрладаг! 🌹</div>
+      <div class="letter-sign" id="lFrom">— Чиний хайрт</div>
+    </div>
+    <svg class="env-svg" id="envSvg" viewBox="0 0 320 210" xmlns="http://www.w3.org/2000/svg">
+      <rect x="0" y="0" width="320" height="210" rx="4" fill="#f5d77e"/>
+      <polygon points="0,210 0,90 160,210" fill="#e8c96a"/>
+      <polygon points="320,210 320,90 160,210" fill="#dbb85a"/>
+      <polygon points="0,210 160,150 320,210" fill="#e0bf60"/>
+      <g id="flapG" style="transform-origin:160px 0px;transform:rotateX(0deg);transition:transform .55s cubic-bezier(.4,0,.2,1);">
+        <polygon points="0,0 320,0 160,115" fill="#e6c45a"/>
+      </g>
+    </svg>
+    <div class="env-seal" id="seal">❤️</div>
+    <div class="env-hint">Энд дар уу</div>
+  </div>
+
+  <div class="btns">
+    <button class="btn sec" onclick="event.stopPropagation();toggleCust()">✏️ Захидал засах</button>
+    <button class="btn" onclick="event.stopPropagation();sendLove()">💝 Илгээх</button>
+  </div>
+
+  <div class="cust" id="cust" onclick="event.stopPropagation()">
+    <div><label>Хэнд зориулсан:</label><input id="iTo" value="Хайрт минь,"></div>
+    <div><label>Захидлын текст:</label><textarea id="iBody">Чи миний хувьд дэлхийн хамгийн үнэтэй хүн. Чамайг харах бүрт зүрх минь дүүрэн баярладаг. Би чамайг хайрладаг! 🌹</textarea></div>
+    <div><label>Гарын үсэг:</label><input id="iFrom" value="— Чиний хайрт"></div>
+    <button class="btn" onclick="applyCustom()">✅ Хэрэглэх</button>
+  </div>
+</div>
+
+<script>
+let isOpen=false;
+function toggleEnv(){
+  isOpen=!isOpen;
+  const env=document.getElementById('env');
+  const letter=document.getElementById('letter');
+  const flapG=document.getElementById('flapG');
+  if(isOpen){
+    env.classList.add('open');
+    flapG.style.transform='rotateX(180deg)';
+    setTimeout(()=>{letter.classList.add('out');},200);
+  }else{
+    env.classList.remove('open');
+    letter.classList.remove('out');
+    setTimeout(()=>{flapG.style.transform='rotateX(0deg)';},300);
+  }
+}
+function toggleCust(){document.getElementById('cust').classList.toggle('show');}
+function applyCustom(){
+  document.getElementById('lTo').textContent=document.getElementById('iTo').value||'Хайрт минь,';
+  document.getElementById('lBody').textContent=document.getElementById('iBody').value;
+  document.getElementById('lFrom').textContent=document.getElementById('iFrom').value||'— Чиний хайрт';
+  document.getElementById('cust').classList.remove('show');
+  if(!isOpen)toggleEnv();
+}
+function sendLove(){
+  const emj=['❤️','💕','💖','💗','💝','🌹'];
+  for(let i=0;i<22;i++){
+    const d=document.createElement('div');
+    d.textContent=emj[Math.floor(Math.random()*emj.length)];
+    d.style.cssText=`position:absolute;font-size:${1.1+Math.random()*1.4}rem;left:${Math.random()*88+4}%;bottom:${Math.random()*35+15}%;pointer-events:none;z-index:999;animation:burst ${1+Math.random()*.9}s ease-out forwards;animation-delay:${Math.random()*.5}s;`;
+    document.getElementById('scene').appendChild(d);
+    setTimeout(()=>d.remove(),2500);
+  }
+}
+const hbg=document.getElementById('hbg');
+const em=['❤️','💕','💖','💗','🌹'];
+for(let i=0;i<14;i++){
+  const h=document.createElement('div');
+  h.className='hf';
+  h.textContent=em[Math.floor(Math.random()*em.length)];
+  h.style.left=Math.random()*100+'%';
+  h.style.fontSize=(0.7+Math.random()*1.1)+'rem';
+  h.style.animationDuration=(7+Math.random()*9)+'s';
+  h.style.animationDelay=(Math.random()*10)+'s';
+  hbg.appendChild(h);
+}
+</script>
